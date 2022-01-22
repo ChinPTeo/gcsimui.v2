@@ -14,7 +14,7 @@ export const teamSlice = createSlice({
       state,
       action: PayloadAction<{ index: number; data: Character }>
     ) => {
-      if (action.payload.index > 0 && action.payload.index < state.length) {
+      if (action.payload.index >= 0 && action.payload.index < state.length) {
         state[action.payload.index] = action.payload.data;
       }
       return state
@@ -34,9 +34,10 @@ export const teamSlice = createSlice({
       }
       return state
     },
+    
   },
 });
 
-export const { setCharacter, addCharacter, setTeam } = teamSlice.actions;
+export const { setCharacter, addCharacter, setTeam, } = teamSlice.actions;
 
 export default teamSlice.reducer;
