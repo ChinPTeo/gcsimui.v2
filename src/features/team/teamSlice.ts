@@ -17,6 +17,7 @@ export const teamSlice = createSlice({
       if (action.payload.index > 0 && action.payload.index < state.length) {
         state[action.payload.index] = action.payload.data;
       }
+      return state
     },
     addCharacter: (state) => {
       //add new if length < 4

@@ -1,28 +1,57 @@
 import React, { useState } from "react";
+import { useAppDispatch } from "app/hooks";
 import { 
     Character,
     ascLvlMin,
     charAscLvlCap
  } from '../../util';
+import { setCharacter } from "features/team/teamSlice";
 
 type EditCharacterProps = {
     char: Character;
     consImg: string[];
+    index: number;
 }
 
-export default function EditCharacterModal({char, consImg}: EditCharacterProps) {
+export default function EditCharacterModal({char, consImg, index}: EditCharacterProps) {
 
-    let lvl = char.level ? char.level : 0;
-    let asc = char.ascension ? charAscLvlCap(char.ascension) : 0;
-    let cons = char.constellation ? char.constellation : 0;
+    let lvl = char.level;
+    let asc = char.ascension;
+    let cons = char.constellation;
     let tal = {
-        auto: char.talent.auto ? char.talent.auto : 1,
-        skill: char.talent.skill ? char.talent.skill : 1,
-        burst: char.talent.burst ? char.talent.burst : 1,
+        auto: char.talent.auto,
+        skill: char.talent.skill,
+        burst: char.talent.burst,
     };
+
+    const dispatch = useAppDispatch();
 
     const [minLvl, setMinLvl] = useState(ascLvlMin(asc));
     const [maxLvl, setMaxLvl] = useState(charAscLvlCap(asc));
+
+    function handleChange() {
+        console.log(`lvl: ${lvl} \n asc: ${asc} \n cons: ${cons} \n tal \n auto: ${tal.auto} \n skill: ${tal.skill} \n burst ${tal.burst}`);
+        let newCharData : Character = {
+            key: char.key,
+            name: char.name,
+            element: char.element,
+            icon: char.icon,
+            level: lvl,
+            constellation: cons,
+            ascension: asc,
+            talent: { auto: tal.auto, skill: tal.skill, burst: tal.burst },
+            weapontype: char.weapontype,
+            weapon: char.weapon,
+            artifact: {
+                flower: char.artifact.flower,
+                plume: char.artifact.plume,
+                sands: char.artifact.sands,
+                goblet: char.artifact.goblet,
+                circlet: char.artifact.circlet
+            }
+        }
+        dispatch(setCharacter({ index: index, data: newCharData }));
+    }
     
     return(
         <>
@@ -53,7 +82,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                                                 lvl = min;
                                                 console.log("lvl set to: ", lvl);
                                             }
-                                            //handleChange();
+                                            handleChange();
                                         }}
                                     >
                                         <svg
@@ -80,6 +109,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                         max={maxLvl}
                         value={lvl}
                         onInput={(e) => {
+                            //unable to access event value for some reason, need to figure it out
                             //lvl = parseInt(e.target.value)
                             //handleChange();
                         }}
@@ -97,11 +127,11 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                         return(
                             <div
                                 className={cons > i
-                                ? "rounded-md border-2 border-gray-100 opacity-100 hover:bg-gray-500"
-                                : "rounded-md border-2 border-transparent opacity-25 hover:bg-gray-500"}
+                                ? "rounded-md flex items-center justify-center border-2 border-gray-100 opacity-100 hover:bg-gray-500"
+                                : "rounded-md flex items-center justify-center border-2 border-transparent opacity-25 hover:bg-gray-500"}
                                 onClick={() => {
                                     cons = cons == i + 1 ? i : i + 1;
-                                    //handleChange();
+                                    handleChange();
                                 }}
                             >
                                 <img src={url} alt="" className="w-12 h-12"   />                              
@@ -123,7 +153,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                                         if(tal.auto < 10) {
                                             tal.auto++;
                                         }
-                                        //handleChange();
+                                        handleChange();
                                     }}
                                 >
                                     <svg
@@ -147,7 +177,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                                         if(tal.auto > 0) {
                                             tal.auto--;
                                         }
-                                        //handleChange();
+                                        handleChange();
                                     }}
                                 >
                                     <svg
@@ -181,7 +211,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                                         if(tal.skill < 10) {
                                             tal.skill++;
                                         }
-                                        //handleChange();
+                                        handleChange();
                                     }}
                                 >
                                     <svg
@@ -205,7 +235,7 @@ export default function EditCharacterModal({char, consImg}: EditCharacterProps) 
                                         if(tal.skill > 0) {
                                             tal.skill--;
                                         }
-                                        //handleChange();
+                                        handleChange();
                                     }}
                                 >
                                     <svg

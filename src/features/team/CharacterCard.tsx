@@ -132,7 +132,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
         style={{background: Colors.DARK_GRAY4}}
       >
         <div className="p-4 text-white ">
-          <EditCharacterModal char={char} consImg={consImages} />
+          <EditCharacterModal char={char} consImg={consImages} index={index} />
         </div>
       </Dialog>
       
