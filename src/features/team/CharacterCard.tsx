@@ -10,6 +10,7 @@ import "@blueprintjs/core/lib/css/blueprint.css";
 import { Dialog, Colors } from "@blueprintjs/core";
 import EditCharacterModal from "./EditCharacterModal";
 import EditWeaponModal from "./EditWeaponModal";
+import EditArtifactModal from "./EditArtifactModal";
 import { setCharacter } from "./teamSlice";
 import { useAppDispatch } from "app/hooks";
 
@@ -44,12 +45,13 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
   const dispatch = useAppDispatch();
   const [editChar, setEditChar] = useState(false);
   const [editWeapon, setEditWeapon] = useState(false);
+  const [editArtifact, setEditArtifact] = useState(false);
   const EditCharacter = () => {
     setEditChar(true);
   };
 
   const chooseWeapon = () => {};
-  const editArtifact = (slot: SlotKey | "") => {};
+  const EditArtifact = (slot: SlotKey | "") => {};
   const EditWeapon = ({
     level,
     ascension,
@@ -91,11 +93,14 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
   slots.forEach((slot) => {
     let a = char.artifact[slot];
     let set = a.setKey;
+    //if artifact exist
     if (set !== "") {
       arts.push(
         <div
           className="w-10 flex flex-col rounded-md hover:bg-gray-500 cursor-pointer"
-          onClick={() => editArtifact(slot)}
+          onClick={() => {
+            setEditArtifact(true);
+          }}
         >
           <img src={a.icon} alt={slot} className="h-auto w-full" />
           <span className="text-center text-xs">
@@ -107,7 +112,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
       arts.push(
         <div
           className="w-10 flex flex-col rounded-md hover:bg-gray-500 cursor-pointer"
-          onClick={() => editArtifact(slot)}
+          onClick={() => EditArtifact(slot)}
         >
           <div className="w-full blank">
             <div className="blank-svg mt-2 mb-3">
@@ -160,6 +165,19 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
       >
         <div className="p-5 pb-3 text-white ">
           <EditWeaponModal char={char} onChange={EditWeapon}></EditWeaponModal>
+        </div>
+      </Dialog>
+
+      <Dialog
+        isOpen={editArtifact}
+        onClose={() => setEditArtifact(false)}
+        style={{ background: Colors.DARK_GRAY4 }}
+      >
+        <div className="p-5 pb-3 text-white ">
+          <EditArtifactModal
+            artifact={char.artifact.flower}
+            handleChange={EditArtifact}
+          ></EditArtifactModal>
         </div>
       </Dialog>
 
