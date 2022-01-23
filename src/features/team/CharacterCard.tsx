@@ -7,8 +7,11 @@ import {
   statToString,
 } from "../../util";
 import "@blueprintjs/core/lib/css/blueprint.css";
-import { Dialog, Colors} from "@blueprintjs/core";
+import { Dialog, Colors } from "@blueprintjs/core";
 import EditCharacterModal from "./EditCharacterModal";
+import EditWeaponModal from "./EditWeaponModal";
+import { setCharacter } from "./teamSlice";
+import { useAppDispatch } from "app/hooks";
 
 function charBG(element: string) {
   switch (element.toLowerCase()) {
@@ -38,15 +41,30 @@ const slots: SlotKey[] = ["flower", "plume", "sands", "goblet", "circlet"];
 let consImages = ["", "", "", "", "", ""];
 
 export default function CharacterCard({ char, index }: CharacterCardProps) {
+  const dispatch = useAppDispatch();
   const [editChar, setEditChar] = useState(false);
+  const [editWeapon, setEditWeapon] = useState(false);
   const EditCharacter = () => {
-    console.log("clicked");
     setEditChar(true);
   };
 
   const chooseWeapon = () => {};
   const editArtifact = (slot: SlotKey | "") => {};
-  const editWeapon = () => {};
+  const EditWeapon = ({
+    level,
+    ascension,
+    refinement,
+  }: {
+    level: number;
+    ascension: number;
+    refinement: number;
+  }) => {
+    let cloneChar = JSON.parse(JSON.stringify(char));
+    cloneChar.weapon.refinement = refinement;
+    cloneChar.weapon.ascension = ascension;
+    cloneChar.weapon.level = level;
+    dispatch(setCharacter({ index: index, data: cloneChar }));
+  };
   const deleteChar = () => {};
 
   let subs: { [key: string]: number } = {
@@ -64,8 +82,8 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
 
   //Setting constellation img URLs
   let charURLName = char.name.toLowerCase().split(" ").join("");
-  for(let i=0; i<6; i++) {
-    consImages[i] = `/images/avatar/cons/${charURLName}_c${i+1}.png`;
+  for (let i = 0; i < 6; i++) {
+    consImages[i] = `/images/avatar/cons/${charURLName}_c${i + 1}.png`;
   }
 
   //Artifact logic
@@ -124,18 +142,27 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
 
   return (
     <>
-      
       <Dialog
         isOpen={editChar}
-        onClose={()=>setEditChar(false)}
+        onClose={() => setEditChar(false)}
         hasBackdrop={editChar}
-        style={{background: Colors.DARK_GRAY4}}
+        style={{ background: Colors.DARK_GRAY4 }}
       >
         <div className="p-4 text-white ">
           <EditCharacterModal char={char} consImg={consImages} index={index} />
         </div>
       </Dialog>
-      
+
+      <Dialog
+        isOpen={editWeapon}
+        onClose={() => setEditWeapon(false)}
+        style={{ background: Colors.DARK_GRAY4 }}
+      >
+        <div className="p-5 pb-3 text-white ">
+          <EditWeaponModal char={char} onChange={EditWeapon}></EditWeaponModal>
+        </div>
+      </Dialog>
+
       <div className="min-h-48 bg-gray-700 shadow rounded-md text-sm flex flex-col p-2 justify-center gap-2">
         <CharHeader char={char} handleEdit={EditCharacter} />
 
@@ -188,7 +215,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
                 }
                 onClick={() => {
                   if (char.weapon.key !== "") {
-                    editWeapon();
+                    setEditWeapon(true);
                   }
                 }}
               >
@@ -438,9 +465,7 @@ function CharHeader({
     >
       <div className="character-header" />
       <div className="w-1/2">
-        <div className="character-name font-medium text-base font-bold">
-          {char.name}
-        </div>
+        <div className="character-name text-base font-bold">{char.name}</div>
         <div>
           <div
             className="hover:bg-gray-500 rounded-md pl-1 pr-1 cursor-pointer "
