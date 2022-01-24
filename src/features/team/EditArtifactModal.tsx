@@ -11,11 +11,12 @@ export interface AllCharArtifacts {
 
 export default function EditArtifactModal({
   artifact,
-  handleChange,
-}: {
-  artifact: Artifact;
-  handleChange: (slot: SlotKey | "") => void;
+}: //   handleChange,
+{
+  artifact: Artifact | "";
+  //   handleChange: (slot: SlotKey | "") => void;
 }) {
+  console.log("pepegamundo");
   //   export let artifact = {
   //     setKey: "", //e.g. "GladiatorsFinale"
   //     slotKey: "", //e.g. "plume"
@@ -81,7 +82,7 @@ export default function EditArtifactModal({
   var regDec = new RegExp(/^(\d+)?(\.)?\d+$/);
 
   const onChange = () => {
-    handleChange("");
+    // handleChange("");
   };
 
   //   const onSubsChange = () => {
@@ -123,45 +124,47 @@ export default function EditArtifactModal({
   //     handleChange(artifact);
   //   };
   return (
-    <div className="flex flex-col edit-content bg-gray-700 p-4 rounded-md shadow edit-content">
-      <div className="h-10 flex flex-row items-center">
-        <div className="font-medium text-lg rounded-md capitalize">
-          {artifact.slotKey}
-        </div>
-        {artifact.icon !== "" ? (
-          <img
-            src={artifact.icon}
-            alt="artifact"
-            // name={artifact.slotKey}
-            className="h-10 w-auto"
-          />
-        ) : (
-          <></>
-        )}
-      </div>
-      <div>
-        <div className="flex flex-col gap-2 p-4 text-sm w-full">
-          <div className="w-full rounded-md flex flex-row focus-within:ring focus-within:border-blue-300">
-            <select
-              className="p-2 w-full rounded-md bg-gray-800"
-              onChange={(e) => {
-                let key = toKey(e.target.value);
-                artifact.setKey = key;
-                artifact.icon = `${staticPath.artifacts}/${key}_${artifact.slotKey}.png`;
-                onChange();
-              }}
-            >
-              <option selected={artifact.setKey === ""}>
-                Choose an artifact set
-              </option>
-              {/* {#each sets as s, index (index)}
+    <div>
+      {artifact && (
+        <div className="flex flex-col edit-content bg-gray-700 p-4 rounded-md shadow edit-content">
+          <div className="h-10 flex flex-row items-center">
+            <div className="font-medium text-lg rounded-md capitalize">
+              {artifact.slotKey}
+            </div>
+            {artifact.icon !== "" ? (
+              <img
+                src={artifact.icon}
+                alt="artifact"
+                // name={artifact.slotKey}
+                className="h-10 w-auto"
+              />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div>
+            <div className="flex flex-col gap-2 p-4 text-sm w-full">
+              <div className="w-full rounded-md flex flex-row focus-within:ring focus-within:border-blue-300">
+                <select
+                  className="p-2 w-full rounded-md bg-gray-800"
+                  onChange={(e) => {
+                    let key = toKey(e.target.value);
+                    artifact.setKey = key;
+                    artifact.icon = `${staticPath.artifacts}/${key}_${artifact.slotKey}.png`;
+                    onChange();
+                  }}
+                >
+                  <option selected={artifact.setKey === ""}>
+                    Choose an artifact set
+                  </option>
+                  {/* {#each sets as s, index (index)}
             <option selected={artifact.setKey === toKey(s)}>{s}</option>
           {/each} */}
-            </select>
-          </div>
-          <div className="w-full rounded-md flex flex-row gap-2 items-center">
-            <div className="ml-2 w-40">Main Stat</div>
-            {/* <select
+                </select>
+              </div>
+              <div className="w-full rounded-md flex flex-row gap-2 items-center">
+                <div className="ml-2 w-40">Main Stat</div>
+                {/* <select
           className="p-2 w-full rounded-md bg-gray-800"
           onChange={(e) => {
             artifact.mainStatKey = e.target.value;
@@ -177,28 +180,28 @@ export default function EditArtifactModal({
             >
           {/each}
         </select> */}
-          </div>
-          <div className="w-full rounded-md flex flex-row gap-2 items-center">
-            <div className="ml-2 w-40">Level {artifact.level}</div>
-            <input
-              type="range"
-              className="range p-1 mt-2"
-              min={0}
-              max={20}
-              value={artifact.level}
-              //   on:input={(e) => {
-              //     artifact.level = parseInt(e.target.value);
-              //     onChange();
-              //   }}
-              onChange={(e) => {
-                artifact.level = parseInt(e.target.value);
-                onChange();
-              }}
-            />
-          </div>
-        </div>
+              </div>
+              <div className="w-full rounded-md flex flex-row gap-2 items-center">
+                <div className="ml-2 w-40">Level {artifact.level}</div>
+                <input
+                  type="range"
+                  className="range p-1 mt-2"
+                  min={0}
+                  max={20}
+                  value={artifact.level}
+                  //   on:input={(e) => {
+                  //     artifact.level = parseInt(e.target.value);
+                  //     onChange();
+                  //   }}
+                  onChange={(e) => {
+                    artifact.level = parseInt(e.target.value);
+                    onChange();
+                  }}
+                />
+              </div>
+            </div>
 
-        {/* <div className="flex flex-col w-full text-sm">
+            {/* <div className="flex flex-col w-full text-sm">
       <div className="flex flex-row">
         <div className="font-medium text-md">Substats</div>
       </div>
@@ -282,7 +285,9 @@ export default function EditArtifactModal({
         </div>
       {/each}
     </div> */}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

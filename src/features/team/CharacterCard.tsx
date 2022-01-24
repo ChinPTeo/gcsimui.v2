@@ -51,7 +51,27 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
   };
 
   const chooseWeapon = () => {};
-  const EditArtifact = (slot: SlotKey | "") => {};
+  const EditArtifact = (slot: SlotKey | "") => {
+    setEditArtifact(true);
+    if (slot) {
+      return (
+        <Dialog
+          isOpen={editArtifact}
+          onClose={() => setEditArtifact(false)}
+          style={{ background: Colors.DARK_GRAY4 }}
+        >
+          {}
+          <div className="p-5 pb-3 text-white ">
+            <EditArtifactModal
+              artifact={char.artifact[slot]}
+              //   handleChange={EditArtifact}
+            ></EditArtifactModal>
+          </div>
+        </Dialog>
+      );
+    } else return <></>;
+  };
+
   const EditWeapon = ({
     level,
     ascension,
@@ -99,7 +119,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
         <div
           className="w-10 flex flex-col rounded-md hover:bg-gray-500 cursor-pointer"
           onClick={() => {
-            setEditArtifact(true);
+            EditArtifact(slot);
           }}
         >
           <img src={a.icon} alt={slot} className="h-auto w-full" />
@@ -165,19 +185,6 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
       >
         <div className="p-5 pb-3 text-white ">
           <EditWeaponModal char={char} onChange={EditWeapon}></EditWeaponModal>
-        </div>
-      </Dialog>
-
-      <Dialog
-        isOpen={editArtifact}
-        onClose={() => setEditArtifact(false)}
-        style={{ background: Colors.DARK_GRAY4 }}
-      >
-        <div className="p-5 pb-3 text-white ">
-          <EditArtifactModal
-            artifact={char.artifact.flower}
-            handleChange={EditArtifact}
-          ></EditArtifactModal>
         </div>
       </Dialog>
 
@@ -254,6 +261,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
           {arts}
         </div>
 
+        {/* substats */}
         <div className="flex flex-col m-2 p-2">
           <div className="flex flex-row">
             <div className="font-bold">Substats</div>
