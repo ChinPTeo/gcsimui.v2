@@ -20,7 +20,7 @@
 
 import { SlotKey, StatKey } from "./good";
 
-export function statToString(input: StatKey | "") {
+export function statToString(input: StatKey | "" | String) {
   switch (input) {
     case "hp":
       return "HP";
@@ -62,7 +62,7 @@ export function statToString(input: StatKey | "") {
   return "-";
 }
 
-export function slotMainStat(slot: SlotKey) {
+export function slotMainStat(slot: SlotKey){
   switch (slot) {
     case "flower":
       return ["hp"];

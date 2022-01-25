@@ -1,6 +1,14 @@
 import { artifacts } from "genshin-db";
 import React, { useState } from "react";
-import { Character, Artifact, toKey, staticPath, SlotKey } from "../../util";
+import {
+  Character,
+  Artifact,
+  toKey,
+  staticPath,
+  SlotKey,
+  slotMainStat,
+  statToString,
+} from "../../util";
 
 export interface AllCharArtifacts {
   flower: Artifact;
@@ -199,28 +207,36 @@ export default function EditArtifactModal({
                     Choose an artifact set
                   </option>
                   {allsets.map((set) => (
-                    <option value={set.value}>{set.label}</option>
+                    <option
+                      selected={artifact.setKey === set.value}
+                      value={set.value}
+                    >
+                      {set.label}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="w-full rounded-md flex flex-row gap-2 items-center">
                 <div className="ml-2 w-40">Main Stat</div>
-                {/* <select
-          className="p-2 w-full rounded-md bg-gray-800"
-          onChange={(e) => {
-            artifact.mainStatKey = e.target.value;
-            onChange();
-          }}
-        >
-          <option disabled="disabled" selected="selected"
-            >Choose main stat</option
-          >
-          {#each slotMainStat(artifact.slotKey) as s, index (index)}
-            <option selected={artifact.mainStatKey === s} value={s}
-              >{statToString(s)}</option
-            >
-          {/each}
-        </select> */}
+                <select
+                  className="p-2 w-full rounded-md bg-gray-800"
+                  onChange={(e) => {
+                    artifact.mainStatKey = e.target.value;
+                    onChange();
+                  }}
+                >
+                  <option disabled selected>
+                    Choose main stat
+                  </option>
+                  {slotMainStat(artifact.slotKey).map((stat) => (
+                    <option
+                      selected={artifact.mainStatKey === stat}
+                      value={stat}
+                    >
+                      {statToString(stat)}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="w-full rounded-md flex flex-row gap-2 items-center">
                 <div className="ml-2 w-40">Level {artifact.level}</div>
@@ -230,10 +246,10 @@ export default function EditArtifactModal({
                   min={0}
                   max={20}
                   value={artifact.level}
-                  //   on:input={(e) => {
-                  //     artifact.level = parseInt(e.target.value);
-                  //     onChange();
-                  //   }}
+                  // on:input={(e) => {
+                  //   artifact.level = parseInt(e.target.value);
+                  //   onChange();
+                  // }}
                   onChange={(e) => {
                     artifact.level = parseInt(e.target.value);
                     onChange();
