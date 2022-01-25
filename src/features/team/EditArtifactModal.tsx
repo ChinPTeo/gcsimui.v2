@@ -11,41 +11,41 @@ export interface AllCharArtifacts {
 }
 
 let allsets = [
-  "Adventurer", //Adventurer
-  "ArchaicPetra", //Archaic Petra
-  "Berserker", //Berserker
-  "BlizzardStrayer", //Blizzard Strayer
-  "BloodstainedChivalry", //Bloodstained Chivalry
-  "BraveHeart", //Brave Heart
-  "CrimsonWitchOfFlames", //Crimson Witch of Flames
-  "DefendersWill", //Defender's Will
-  "EmblemOfSeveredFate", //Emblem of Severed Fate
-  "Gambler", //Gambler
-  "GladiatorsFinale", //Gladiator's Finale
-  "HeartOfDepth", //Heart of Depth
-  "Instructor", //Instructor
-  "Lavawalker", //Lavawalker
-  "LuckyDog", //Lucky Dog
-  "MaidenBeloved", //Maiden Beloved
-  "MartialArtist", //Martial Artist
-  "NoblesseOblige", //Noblesse Oblige
-  "PaleFlame", //Pale Flame
-  "PrayersForDestiny", //Prayers for Destiny
-  "PrayersForIllumination", //Prayers for Illumination
-  "PrayersForWisdom", //Prayers for Wisdom
-  "PrayersToSpringtime", //Prayers to Springtime
-  "ResolutionOfSojourner", //Resolution of Sojourner
-  "RetracingBolide", //Retracing Bolide
-  "Scholar", //Scholar
-  "ShimenawasReminiscence", //Shimenawa's Reminiscence
-  "TenacityOfTheMillelith", //Tenacity of the Millelith
-  "TheExile", //The Exile
-  "ThunderingFury", //Thundering Fury
-  "Thundersoother", //Thundersoother
-  "TinyMiracle", //Tiny Miracle
-  "TravelingDoctor", //Traveling Doctor
-  "ViridescentVenerer", //Viridescent Venerer
-  "WanderersTroupe", //Wanderer's Troupe
+  { value: "Adventurer", label: "Adventurer" },
+  { value: "ArchaicPetra", label: "Archaic Petra" },
+  { value: "Berserker", label: "Berserker" },
+  { value: "BlizzardStrayer", label: "Blizzard Strayer" },
+  { value: "BloodstainedChivalry", label: "Bloodstained Chivalry" },
+  { value: "BraveHeart", label: "Brave Heart" },
+  { value: "CrimsonWitchOfFlames", label: "Crimson Witch of Flames" },
+  { value: "DefendersWill", label: "Defender's Will" },
+  { value: "EmblemOfSeveredFate", label: "Emblem of Severed Fate" },
+  { value: "Gambler", label: "Gambler" },
+  { value: "GladiatorsFinale", label: "Gladiator's Finale" },
+  { value: "HeartOfDepth", label: "Heart of Depth" },
+  { value: "Instructor", label: "Instructor" },
+  { value: "Lavawalker", label: "Lavawalker" },
+  { value: "LuckyDog", label: "Lucky Dog" },
+  { value: "MaidenBeloved", label: "Maiden Beloved" },
+  { value: "MartialArtist", label: "Martial Artist" },
+  { value: "NoblesseOblige", label: "Noblesse Oblige" },
+  { value: "PaleFlame", label: "Pale Flame" },
+  { value: "PrayersForDestiny", label: "Prayers for Destiny" },
+  { value: "PrayersForIllumination", label: "Prayers for Illumination" },
+  { value: "PrayersForWisdom", label: "Prayers for Wisdom" },
+  { value: "PrayersToSpringtime", label: "Prayers to Springtime" },
+  { value: "ResolutionOfSojourner", label: "Resolution of Sojourner" },
+  { value: "RetracingBolide", label: "Retracing Bolide" },
+  { value: "Scholar", label: "Scholar" },
+  { value: "ShimenawasReminiscence", label: "Shimenawa's Reminiscence" },
+  { value: "TenacityOfTheMillelith", label: "Tenacity of the Millelith" },
+  { value: "TheExile", label: "The Exile" },
+  { value: "ThunderingFury", label: "Thundering Fury" },
+  { value: "Thundersoother", label: "Thundersoother" },
+  { value: "TinyMiracle", label: "Tiny Miracle" },
+  { value: "TravelingDoctor", label: "Traveling Doctor" },
+  { value: "ViridescentVenerer", label: "Viridescent Venerer" },
+  { value: "WanderersTroupe", label: "Wanderer's Troupe" },
 ];
 
 export default function EditArtifactModal({
@@ -198,10 +198,9 @@ export default function EditArtifactModal({
                   <option selected={artifact.setKey === ""}>
                     Choose an artifact set
                   </option>
-                  {allsets.map((set) => {
-                    console.log(set);
-                    <option value={set}>{set}</option>;
-                  })}
+                  {allsets.map((set) => (
+                    <option value={set.value}>{set.label}</option>
+                  ))}
                 </select>
               </div>
               <div className="w-full rounded-md flex flex-row gap-2 items-center">
