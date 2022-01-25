@@ -1,3 +1,4 @@
+import { artifacts } from "genshin-db";
 import React, { useState } from "react";
 import { Character, Artifact, toKey, staticPath, SlotKey } from "../../util";
 
@@ -9,13 +10,52 @@ export interface AllCharArtifacts {
   circlet: Artifact;
 }
 
+let allsets = [
+  "Adventurer", //Adventurer
+  "ArchaicPetra", //Archaic Petra
+  "Berserker", //Berserker
+  "BlizzardStrayer", //Blizzard Strayer
+  "BloodstainedChivalry", //Bloodstained Chivalry
+  "BraveHeart", //Brave Heart
+  "CrimsonWitchOfFlames", //Crimson Witch of Flames
+  "DefendersWill", //Defender's Will
+  "EmblemOfSeveredFate", //Emblem of Severed Fate
+  "Gambler", //Gambler
+  "GladiatorsFinale", //Gladiator's Finale
+  "HeartOfDepth", //Heart of Depth
+  "Instructor", //Instructor
+  "Lavawalker", //Lavawalker
+  "LuckyDog", //Lucky Dog
+  "MaidenBeloved", //Maiden Beloved
+  "MartialArtist", //Martial Artist
+  "NoblesseOblige", //Noblesse Oblige
+  "PaleFlame", //Pale Flame
+  "PrayersForDestiny", //Prayers for Destiny
+  "PrayersForIllumination", //Prayers for Illumination
+  "PrayersForWisdom", //Prayers for Wisdom
+  "PrayersToSpringtime", //Prayers to Springtime
+  "ResolutionOfSojourner", //Resolution of Sojourner
+  "RetracingBolide", //Retracing Bolide
+  "Scholar", //Scholar
+  "ShimenawasReminiscence", //Shimenawa's Reminiscence
+  "TenacityOfTheMillelith", //Tenacity of the Millelith
+  "TheExile", //The Exile
+  "ThunderingFury", //Thundering Fury
+  "Thundersoother", //Thundersoother
+  "TinyMiracle", //Tiny Miracle
+  "TravelingDoctor", //Traveling Doctor
+  "ViridescentVenerer", //Viridescent Venerer
+  "WanderersTroupe", //Wanderer's Troupe
+];
+
 export default function EditArtifactModal({
-  artifact,
+  inArtifact,
 }: //   handleChange,
 {
-  artifact: Artifact | "";
+  inArtifact: Artifact;
   //   handleChange: (slot: SlotKey | "") => void;
 }) {
+  let artifact = JSON.parse(JSON.stringify(inArtifact));
   console.log("pepegamundo");
   //   export let artifact = {
   //     setKey: "", //e.g. "GladiatorsFinale"
@@ -31,53 +71,54 @@ export default function EditArtifactModal({
 
   //   let sets = genshindb.artifacts("4", { matchCategories: true });
 
-  //   let subs = [
-  //     { key: "hp", label: "HP%/HP", val_: 0, val: 0, icon: IconHP },
-  //     { key: "atk", label: "Atk%/Atk", val_: 0, val: 0, icon: IconAttack },
-  //     { key: "def", label: "Def%/Def", val_: 0, val: 0, icon: IconDefense },
-  //     { key: "eleMas", label: "EM", val_: 0, val: 0, icon: IconEM },
-  //     { key: "enerRech_", label: "ER", val_: 0, val: 0, icon: IconER },
-  //     { key: "critRate_", label: "CR", val_: 0, val: 0, icon: IconCR },
-  //     { key: "critDMG_", label: "CD", val_: 0, val: 0, icon: IconCD },
-  //   ];
-  //   let subs = artifact.substats;
-  //calculate sub values
-  //   for (let i = 0; i < subs.length; i++) {
-  //     subs[i].val = 0;
-  //     subs[i].val_ = 0;
+  // let subs = [
+  //   { key: "hp", label: "HP%/HP", val_: 0, val: 0, icon: IconHP },
+  //   { key: "atk", label: "Atk%/Atk", val_: 0, val: 0, icon: IconAttack },
+  //   { key: "def", label: "Def%/Def", val_: 0, val: 0, icon: IconDefense },
+  //   { key: "eleMas", label: "EM", val_: 0, val: 0, icon: IconEM },
+  //   { key: "enerRech_", label: "ER", val_: 0, val: 0, icon: IconER },
+  //   { key: "critRate_", label: "CR", val_: 0, val: 0, icon: IconCR },
+  //   { key: "critDMG_", label: "CD", val_: 0, val: 0, icon: IconCD },
+  // ];
+  let subs = artifact.substats.slice();
 
-  //     artifact.substats.forEach((v) => {
-  //       //check if key matches
+  // //   calculate sub values
+  //     for (let i = 0; i < subs.length; i++) {
+  //       subs[i].val = 0;
+  //       subs[i].val_ = 0;
 
-  //       if (!v.key.includes(subs[i].key)) {
-  //         return;
-  //       }
+  //       artifact.substats.forEach((v) => {
+  //         //check if key matches
 
-  //       //grab value
-  //       let val = 0;
-  //       let val_ = 0;
-  //       if (v.key.includes("_")) {
-  //         val_ = v.value;
-  //       } else {
-  //         val = v.value;
-  //       }
-  //       // console.log(
-  //       //   subs[i].key,
-  //       //   " found ok: ",
-  //       //   v,
-  //       //   " values: ",
-  //       //   val,
-  //       //   " %: ",
-  //       //   val_
-  //       // );
-  //       //stick it in
-  //       subs[i].val += val;
-  //       subs[i].val_ += val_;
-  //       // console.log(subs[i]);
-  //     });
-  //   }
-  // console.log(subs);
-  // subs = subs;
+  //         if (!v.key.includes(subs[i].key)) {
+  //           return;
+  //         }
+
+  //         //grab value
+  //         let val = 0;
+  //         let val_ = 0;
+  //         if (v.key.includes("_")) {
+  //           val_ = v.value;
+  //         } else {
+  //           val = v.value;
+  //         }
+  //         // console.log(
+  //         //   subs[i].key,
+  //         //   " found ok: ",
+  //         //   v,
+  //         //   " values: ",
+  //         //   val,
+  //         //   " %: ",
+  //         //   val_
+  //         // );
+  //         //stick it in
+  //         subs[i].val += val;
+  //         subs[i].val_ += val_;
+  //         // console.log(subs[i]);
+  //       });
+  //     }
+  console.log(subs);
+  subs = subs;
 
   var regDec = new RegExp(/^(\d+)?(\.)?\d+$/);
 
@@ -85,44 +126,44 @@ export default function EditArtifactModal({
     // handleChange("");
   };
 
-  //   const onSubsChange = () => {
-  //     //just build a new sub tree
-  //     let next = [];
-  //     subs.forEach((sub) => {
-  //       //if hp/atk/def
-  //       if (sub.label.includes("/")) {
-  //         if (sub.val > 0) {
-  //           next.push({
-  //             key: sub.key,
-  //             value: sub.val,
-  //           });
-  //         }
-  //         if (sub.val_ > 0) {
-  //           next.push({
-  //             key: sub.key + "_",
-  //             value: sub.val_,
-  //           });
-  //         }
-  //         return;
-  //       }
-  //       //for the rest
-  //       if (sub.key.includes("_")) {
-  //         if (sub.val_ > 0) {
-  //           next.push({
-  //             key: sub.key,
-  //             value: sub.val_,
-  //           });
-  //         }
-  //       } else if (sub.val > 0) {
+  // const onSubsChange = () => {
+  //   //just build a new sub tree
+  //   let next = [];
+  //   subs.forEach((sub) => {
+  //     //if hp/atk/def
+  //     if (sub.key.includes("/")) {
+  //       if (sub.val > 0) {
   //         next.push({
   //           key: sub.key,
   //           value: sub.val,
   //         });
   //       }
-  //     });
-  //     artifact.substats = next;
-  //     handleChange(artifact);
-  //   };
+  //       if (sub.val_ > 0) {
+  //         next.push({
+  //           key: sub.key + "_",
+  //           value: sub.val_,
+  //         });
+  //       }
+  //       return;
+  //     }
+  //     //for the rest
+  //     if (sub.key.includes("_")) {
+  //       if (sub.val_ > 0) {
+  //         next.push({
+  //           key: sub.key,
+  //           value: sub.val_,
+  //         });
+  //       }
+  //     } else if (sub.val > 0) {
+  //       next.push({
+  //         key: sub.key,
+  //         value: sub.val,
+  //       });
+  //     }
+  //   });
+  //   artifact.substats = next;
+  // //   handleChange(artifact);
+  // };
   return (
     <div>
       {artifact && (
@@ -157,9 +198,10 @@ export default function EditArtifactModal({
                   <option selected={artifact.setKey === ""}>
                     Choose an artifact set
                   </option>
-                  {/* {#each sets as s, index (index)}
-            <option selected={artifact.setKey === toKey(s)}>{s}</option>
-          {/each} */}
+                  {allsets.map((set) => {
+                    console.log(set);
+                    <option value={set}>{set}</option>;
+                  })}
                 </select>
               </div>
               <div className="w-full rounded-md flex flex-row gap-2 items-center">
