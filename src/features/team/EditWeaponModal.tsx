@@ -87,10 +87,6 @@ export default function EditWeaponModal({
               min={minLvl}
               max={maxLvl}
               value={lvl}
-              onInput={(e) => {
-                // lvl = parseInt(e.target.value);
-                handleChange();
-              }}
               onChange={(e) => {
                 lvl = parseInt(e.target.value);
                 handleChange();
@@ -109,10 +105,6 @@ export default function EditWeaponModal({
               min={1}
               max={5}
               value={refine}
-              onInput={(e) => {
-                // refine = parseInt(e.target.value);
-                handleChange();
-              }}
               onChange={(e) => {
                 refine = parseInt(e.target.value);
                 handleChange();

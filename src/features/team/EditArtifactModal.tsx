@@ -1,5 +1,5 @@
 import { artifacts } from "genshin-db";
-import React, { useState } from "react";
+import React, { ReactComponentElement, useState } from "react";
 import {
   Character,
   Artifact,
@@ -8,7 +8,17 @@ import {
   SlotKey,
   slotMainStat,
   statToString,
+  ISubstat,
+  StatKey,
 } from "../../util";
+
+import { ReactComponent as IconAttack } from "../../Icons/IconAttack.svg";
+import { ReactComponent as IconHP } from "../../Icons/IconHP.svg";
+import { ReactComponent as IconDefense } from "../../Icons/IconDefense.svg";
+import { ReactComponent as IconEM } from "../../Icons/IconEM.svg";
+import { ReactComponent as IconER } from "../../Icons/IconER.svg";
+import { ReactComponent as IconCR } from "../../Icons/IconCR.svg";
+import { ReactComponent as IconCD } from "../../Icons/IconCD.svg";
 
 export interface AllCharArtifacts {
   flower: Artifact;
@@ -16,6 +26,26 @@ export interface AllCharArtifacts {
   sands: Artifact;
   goblet: Artifact;
   circlet: Artifact;
+}
+
+export interface subDisplayLine {
+  key: StatKey;
+  label: string;
+  val_: number;
+  val: number;
+  icon: React.FunctionComponent;
+}
+
+function convertStatKey(input: StatKey): StatKey {
+  switch (input) {
+    case "hp":
+      return "hp_";
+    case "def":
+      return "def_";
+    case "atk":
+      return "atk_";
+  }
+  return "heal_";
 }
 
 let allsets = [
@@ -79,52 +109,52 @@ export default function EditArtifactModal({
 
   //   let sets = genshindb.artifacts("4", { matchCategories: true });
 
-  // let subs = [
-  //   { key: "hp", label: "HP%/HP", val_: 0, val: 0, icon: IconHP },
-  //   { key: "atk", label: "Atk%/Atk", val_: 0, val: 0, icon: IconAttack },
-  //   { key: "def", label: "Def%/Def", val_: 0, val: 0, icon: IconDefense },
-  //   { key: "eleMas", label: "EM", val_: 0, val: 0, icon: IconEM },
-  //   { key: "enerRech_", label: "ER", val_: 0, val: 0, icon: IconER },
-  //   { key: "critRate_", label: "CR", val_: 0, val: 0, icon: IconCR },
-  //   { key: "critDMG_", label: "CD", val_: 0, val: 0, icon: IconCD },
-  // ];
-  let subs = artifact.substats.slice();
+  let subs: subDisplayLine[] = [
+    { key: "hp", label: "HP%/HP", val_: 0, val: 0, icon: IconHP },
+    { key: "atk", label: "Atk%/Atk", val_: 0, val: 0, icon: IconAttack },
+    { key: "def", label: "Def%/Def", val_: 0, val: 0, icon: IconDefense },
+    { key: "eleMas", label: "EM", val_: 0, val: 0, icon: IconEM },
+    { key: "enerRech_", label: "ER", val_: 0, val: 0, icon: IconER },
+    { key: "critRate_", label: "CR", val_: 0, val: 0, icon: IconCR },
+    { key: "critDMG_", label: "CD", val_: 0, val: 0, icon: IconCD },
+  ];
+  // let subs = artifact.substats.slice();
 
   // //   calculate sub values
-  //     for (let i = 0; i < subs.length; i++) {
-  //       subs[i].val = 0;
-  //       subs[i].val_ = 0;
+  for (let i = 0; i < subs.length; i++) {
+    subs[i].val = 0;
+    subs[i].val_ = 0;
 
-  //       artifact.substats.forEach((v) => {
-  //         //check if key matches
+    inArtifact.substats.forEach((v) => {
+      //check if key matches
 
-  //         if (!v.key.includes(subs[i].key)) {
-  //           return;
-  //         }
+      if (!v.key.includes(subs[i].key)) {
+        return;
+      }
 
-  //         //grab value
-  //         let val = 0;
-  //         let val_ = 0;
-  //         if (v.key.includes("_")) {
-  //           val_ = v.value;
-  //         } else {
-  //           val = v.value;
-  //         }
-  //         // console.log(
-  //         //   subs[i].key,
-  //         //   " found ok: ",
-  //         //   v,
-  //         //   " values: ",
-  //         //   val,
-  //         //   " %: ",
-  //         //   val_
-  //         // );
-  //         //stick it in
-  //         subs[i].val += val;
-  //         subs[i].val_ += val_;
-  //         // console.log(subs[i]);
-  //       });
-  //     }
+      //grab value
+      let val = 0;
+      let val_ = 0;
+      if (v.key.includes("_")) {
+        val_ = v.value;
+      } else {
+        val = v.value;
+      }
+      // console.log(
+      //   subs[i].key,
+      //   " found ok: ",
+      //   v,
+      //   " values: ",
+      //   val,
+      //   " %: ",
+      //   val_
+      // );
+      //stick it in
+      subs[i].val += val;
+      subs[i].val_ += val_;
+      // console.log(subs[i]);
+    });
+  }
   console.log(subs);
   subs = subs;
 
@@ -134,44 +164,44 @@ export default function EditArtifactModal({
     // handleChange("");
   };
 
-  // const onSubsChange = () => {
-  //   //just build a new sub tree
-  //   let next = [];
-  //   subs.forEach((sub) => {
-  //     //if hp/atk/def
-  //     if (sub.key.includes("/")) {
-  //       if (sub.val > 0) {
-  //         next.push({
-  //           key: sub.key,
-  //           value: sub.val,
-  //         });
-  //       }
-  //       if (sub.val_ > 0) {
-  //         next.push({
-  //           key: sub.key + "_",
-  //           value: sub.val_,
-  //         });
-  //       }
-  //       return;
-  //     }
-  //     //for the rest
-  //     if (sub.key.includes("_")) {
-  //       if (sub.val_ > 0) {
-  //         next.push({
-  //           key: sub.key,
-  //           value: sub.val_,
-  //         });
-  //       }
-  //     } else if (sub.val > 0) {
-  //       next.push({
-  //         key: sub.key,
-  //         value: sub.val,
-  //       });
-  //     }
-  //   });
-  //   artifact.substats = next;
-  // //   handleChange(artifact);
-  // };
+  const onSubsChange = () => {
+    //just build a new sub tree
+    let next: ISubstat[] = [];
+    subs.forEach((sub) => {
+      //if hp/atk/def
+      if (sub.key.includes("/")) {
+        if (sub.val > 0) {
+          next.push({
+            key: sub.key,
+            value: sub.val,
+          });
+        }
+        if (sub.val_ > 0) {
+          next.push({
+            key: convertStatKey(sub.key),
+            value: sub.val_,
+          });
+        }
+        return;
+      }
+      //for the rest
+      if (sub.key.includes("_")) {
+        if (sub.val_ > 0) {
+          next.push({
+            key: sub.key,
+            value: sub.val_,
+          });
+        }
+      } else if (sub.val > 0) {
+        next.push({
+          key: sub.key,
+          value: sub.val,
+        });
+      }
+    });
+    artifact.substats = next;
+    // handleChange(artifact);
+  };
   return (
     <div>
       {artifact && (
@@ -246,10 +276,6 @@ export default function EditArtifactModal({
                   min={0}
                   max={20}
                   value={artifact.level}
-                  // on:input={(e) => {
-                  //   artifact.level = parseInt(e.target.value);
-                  //   onChange();
-                  // }}
                   onChange={(e) => {
                     artifact.level = parseInt(e.target.value);
                     onChange();
@@ -257,11 +283,13 @@ export default function EditArtifactModal({
                 />
               </div>
             </div>
+            {
+              <div className="flex flex-col w-full text-sm">
+                <div className="flex flex-row">
+                  <div className="font-medium text-md">Substats</div>
+                </div>
 
-            {/* <div className="flex flex-col w-full text-sm">
-      <div className="flex flex-row">
-        <div className="font-medium text-md">Substats</div>
-      </div>
+                {/* 
       {#each subs as sub, index (index)}
         <div className="flex flex-row ml-2 p-1">
           <div className="flex-grow flex flex-row items-center">
@@ -341,7 +369,9 @@ export default function EditArtifactModal({
           {/if}
         </div>
       {/each}
-    </div> */}
+      */}
+              </div>
+            }
           </div>
         </div>
       )}
