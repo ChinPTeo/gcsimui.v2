@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { blankChar, Character } from "../../util";
+import { blankChar, Character, Artifact, SlotKey } from "../../util";
 
 export type Team = Array<Character>;
 
@@ -34,10 +34,24 @@ export const teamSlice = createSlice({
       }
       return state
     },
-    
+    setArtifacts: (
+      state,
+      action: PayloadAction<{ index: number; data: {
+        flower: Artifact;
+        plume: Artifact;
+        sands: Artifact;
+        goblet: Artifact;
+        circlet: Artifact;
+      } }>
+    ) => {
+      if (action.payload.index >= 0 && action.payload.index < state.length) {
+        state[action.payload.index].artifact = action.payload.data;
+      }
+      return state
+    }
   },
 });
 
-export const { setCharacter, addCharacter, setTeam, } = teamSlice.actions;
+export const { setCharacter, addCharacter, setTeam, setArtifacts} = teamSlice.actions;
 
 export default teamSlice.reducer;

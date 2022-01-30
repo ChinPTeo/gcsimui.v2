@@ -88,24 +88,24 @@ let allsets = [
 
 export default function EditArtifactModal({
   inArtifact,
-}: //   handleChange,
-{
+  handleChange,
+}: {
   inArtifact: Artifact;
-  //   handleChange: (slot: SlotKey | "") => void;
+  handleChange: (artifact: Artifact) => void;
 }) {
   let artifact = JSON.parse(JSON.stringify(inArtifact));
   console.log("pepegamundo");
-  //   export let artifact = {
-  //     setKey: "", //e.g. "GladiatorsFinale"
-  //     slotKey: "", //e.g. "plume"
-  //     icon: "",
-  //     level: 0, //0-20 inclusive
-  //     rarity: 5, //1-5 inclusive
-  //     mainStatKey: "hp",
-  //     location: "", //where "" means not equipped.
-  //     lock: false, //Whether the artifact is locked in game.
-  //     substats: [],
-  //   };
+  //  let artifact = {
+  //   setKey: "", //e.g. "GladiatorsFinale"
+  //   slotKey: "", //e.g. "plume"
+  //   icon: "",
+  //   level: 0, //0-20 inclusive
+  //   rarity: 5, //1-5 inclusive
+  //   mainStatKey: "hp",
+  //   location: "", //where "" means not equipped.
+  //   lock: false, //Whether the artifact is locked in game.
+  //   substats: [],
+  // };
 
   //   let sets = genshindb.artifacts("4", { matchCategories: true });
 
@@ -173,7 +173,7 @@ export default function EditArtifactModal({
   var regDec = new RegExp(/^(\d+)?(\.)?\d+$/);
 
   const onChange = () => {
-    // handleChange("");
+    handleChange(artifact);
   };
 
   const onSubsChange = () => {
@@ -212,7 +212,7 @@ export default function EditArtifactModal({
       }
     });
     artifact.substats = next;
-    // handleChange(artifact);
+    handleChange(artifact);
   };
   return (
     <div>

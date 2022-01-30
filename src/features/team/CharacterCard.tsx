@@ -5,13 +5,14 @@ import {
   SlotKey,
   StatKey,
   statToString,
+  Artifact,
 } from "../../util";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import { Dialog, Colors } from "@blueprintjs/core";
 import EditCharacterModal from "./EditCharacterModal";
 import EditWeaponModal from "./EditWeaponModal";
 import EditArtifactModal from "./EditArtifactModal";
-import { setCharacter } from "./teamSlice";
+import { setArtifacts, setCharacter } from "./teamSlice";
 import { useAppDispatch } from "app/hooks";
 
 function charBG(element: string) {
@@ -53,26 +54,11 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
   };
 
   const chooseWeapon = () => {};
-  //   const EditArtifact = (slot: SlotKey | "") => {
-  //     if (slot) {
-  //       return (
-  //         <Dialog
-  //           isOpen={editArtifact}
-  //           onClose={() => setEditArtifact(false)}
-  //           style={{ background: Colors.DARK_GRAY4 }}
-  //         >
-  //           {}
-  //           <div className="p-5 pb-3 text-white ">
-  //             {console.log("pepegamusljdk;laksdndo")}
-  //             <EditArtifactModal
-  //               artifact={char.artifact[slot]}
-  //               //   handleChange={EditArtifact}
-  //             ></EditArtifactModal>
-  //           </div>
-  //         </Dialog>
-  //       );
-  //     } else return <></>;
-  //   };
+  const EditArtifact = (artifact: Artifact) => {
+    let cloneArtifacts = JSON.parse(JSON.stringify(char.artifact));
+    cloneArtifacts[artifact.slotKey] = artifact;
+    dispatch(setArtifacts({ index, data: cloneArtifacts }));
+  };
 
   const EditWeapon = ({
     level,
@@ -204,7 +190,7 @@ export default function CharacterCard({ char, index }: CharacterCardProps) {
         <div className="p-5 pb-3 text-white ">
           <EditArtifactModal
             inArtifact={char.artifact[editArtifact]}
-            //   handleChange={EditArtifact}
+            handleChange={EditArtifact}
           ></EditArtifactModal>
         </div>
       </Dialog>
