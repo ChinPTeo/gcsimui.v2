@@ -94,7 +94,6 @@ export default function EditArtifactModal({
   handleChange: (artifact: Artifact) => void;
 }) {
   let artifact = JSON.parse(JSON.stringify(inArtifact));
-  console.log("pepegamundo");
   //  let artifact = {
   //   setKey: "", //e.g. "GladiatorsFinale"
   //   slotKey: "", //e.g. "plume"
@@ -181,7 +180,7 @@ export default function EditArtifactModal({
     let next: ISubstat[] = [];
     subs.forEach((sub) => {
       //if hp/atk/def
-      if (sub.key.includes("/")) {
+      if (sub.label.includes("/")) {
         if (sub.val > 0) {
           next.push({
             key: sub.key,
@@ -189,6 +188,7 @@ export default function EditArtifactModal({
           });
         }
         if (sub.val_ > 0) {
+          console.log("it kinda not working man");
           next.push({
             key: convertStatKey(sub.key),
             value: sub.val_,
@@ -317,12 +317,13 @@ export default function EditArtifactModal({
                           value={sub.val_}
                           onChange={(e) => {
                             const val = e.target.value;
+                            console.log(val);
                             //first we need to sanitize the value
                             if (regDec.test(val)) {
                               e.target.setCustomValidity("");
                               sub.val_ = parseFloat(val);
                               onSubsChange();
-                              // return;
+                              return;
                             }
                             e.target.setCustomValidity("invalid input");
                           }}
