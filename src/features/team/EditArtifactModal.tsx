@@ -295,13 +295,13 @@ export default function EditArtifactModal({
               </div>
             </div>
             {
-              <div className="flex flex-col w-full text-sm">
+              <div className="flex flex-col w-full  text-sm">
                 <div className="flex flex-row">
                   <div className="font-medium text-md">Substats</div>
                 </div>
 
                 {subs.map((sub, index) => (
-                  <div className="flex flex-row ml-2 p-1">
+                  <div className="flex flex-row  justify-end ml-2 p-1">
                     <div className="flex-grow flex flex-row items-center">
                       {<div className="w-5 mr-2">{sub.icon}</div>}
                       <div>{sub.label}</div>
@@ -312,7 +312,7 @@ export default function EditArtifactModal({
                           type="number"
                           step="any"
                           placeholder="enter percentage"
-                          className="w-40 p-2 rounded-l-md bg-gray-800 text-right focus:outline-none invalid:text-red-500"
+                          className="w-20 p-2 rounded-l-md bg-gray-800 text-right focus:outline-none invalid:text-red-500"
                           value={sub.val_}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -348,12 +348,12 @@ export default function EditArtifactModal({
                     )}
 
                     {!sub.key.includes("_") || sub.label.includes("/") ? (
-                      <div className="ml-4 mr-4 rounded-md flex flex-row focus-within:ring focus-within:border-blue-300">
+                      <div className="ml-4 mr-4 rounded-md flex flex-row  ">
                         <input
                           type="number"
                           step="any"
                           placeholder="enter amount"
-                          className="w-40 p-2 rounded-l-md bg-gray-800 text-right focus:outline-none invalid:text-red-500"
+                          className="w-20 ml-3 p-2 pr-5 rounded-md bg-gray-800 text-right focus:outline-none invalid:text-red-500"
                           value={sub.val}
                           onChange={(e) => {
                             const val = e.target.value;
@@ -367,7 +367,7 @@ export default function EditArtifactModal({
                             e.target.setCustomValidity("invalid input");
                           }}
                         />
-                        <div className="p-1 w-6 rounded-r-md bg-gray-800 items-center flex" />
+                        {/* <div className="p-1 w-6 rounded-r-md bg-gray-800 items-center flex" /> */}
                       </div>
                     ) : (
                       <>
