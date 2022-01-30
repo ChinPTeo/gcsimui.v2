@@ -188,7 +188,6 @@ export default function EditArtifactModal({
           });
         }
         if (sub.val_ > 0) {
-          console.log("it kinda not working man");
           next.push({
             key: convertStatKey(sub.key),
             value: sub.val_,
@@ -317,7 +316,6 @@ export default function EditArtifactModal({
                           value={sub.val_}
                           onChange={(e) => {
                             const val = e.target.value;
-                            console.log(val);
                             //first we need to sanitize the value
                             if (regDec.test(val)) {
                               e.target.setCustomValidity("");
