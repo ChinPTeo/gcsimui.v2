@@ -14,13 +14,22 @@ if (process.platform === "win32") {
 }
 
 async function main() {
+  //build binary first, path is ~/code/gcsim/cmd/gcsim
+  try {
+    execa.sync("sh", ["-c", "cd ../gcsim/cmd/gcsim && go build"]);
+  } catch (e) {
+    console.log("error building: ", e);
+    return;
+  }
+
   const rustInfo = (await execa("rustc", ["-vV"])).stdout;
   const targetTriple = /host: (\S+)/g.exec(rustInfo)[1];
   if (!targetTriple) {
     console.error("Failed to determine platform target triple");
   }
+  // fs.unlinkSync(`src-tauri/binaries/gcsim-${targetTriple}${extension}`);
   fs.renameSync(
-    `src-tauri/binaries/gcsim${extension}`,
+    `../gcsim/cmd/gcsim/gcsim${extension}`,
     `src-tauri/binaries/gcsim-${targetTriple}${extension}`
   );
 }

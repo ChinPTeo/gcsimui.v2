@@ -1,13 +1,13 @@
 {
   "package": {
-    "productName": "gcsimui.v2",
-    "version": "0.1.0"
+    "productName": "gcsim",
+    "version": "0.4.34"
   },
   "build": {
-    "distDir": "../src",
+    "distDir": "../build",
     "devPath": "http://localhost:3000",
-    "beforeDevCommand": "",
-    "beforeBuildCommand": ""
+    "beforeDevCommand": "yarn dev",
+    "beforeBuildCommand": "yarn build"
   },
   "tauri": {
     "bundle": {
@@ -22,7 +22,7 @@
         "icons/icon.ico"
       ],
       "resources": [],
-      "externalBin": [],
+      "externalBin": ["binaries/gcsim"],
       "copyright": "",
       "category": "DeveloperTool",
       "shortDescription": "",
@@ -46,16 +46,20 @@
       }
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "https://gist.github.com/srliao/92d3d16d4f2921746b5791ffa23eded0/raw"
+      ],
+      "dialog": true
     },
     "allowlist": {
       "all": true
     },
     "windows": [
       {
-        "title": "gcsimui.v2",
-        "width": 800,
-        "height": 600,
+        "title": "gcsim v0.4.34",
+        "width": 1280,
+        "height": 720,
         "resizable": true,
         "fullscreen": false
       }
