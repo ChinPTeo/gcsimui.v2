@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@tauri-apps/cli": "^1.0.0-beta.10",
     "@types/styled-components": "^5.1.15",
     "autoprefixer": "^9",
     "postcss": "^7",
