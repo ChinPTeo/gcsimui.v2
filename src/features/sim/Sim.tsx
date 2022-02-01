@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RootState } from "app/store";
 import { setConfig } from "./configSlice";
 import { run } from "./SimUtil";
@@ -18,6 +18,14 @@ export default function Sim() {
   const [openHelp, setOpenHelp] = React.useState<boolean>(false);
 
   const handleRun = () => run(config);
+
+  useEffect(async () => {
+    const Command = (await import("@tauri-apps/api/shell")).Command;
+    const writeFile = (await import("@tauri-apps/api/fs")).writeFile;
+    const readBinaryFile = (await import("@tauri-apps/api/fs")).readBinaryFile;
+    const tempdir = (await import("@tauri-apps/api/os")).tempdir;
+    const saveFile = (await import("@tauri-apps/api/dialog")).save;
+  }, []);
 
   const handleOpenOpt = () => setOpenOpt(true);
   const handleCloseOpt = () => setOpenOpt(false);
