@@ -20,6 +20,7 @@
     "axios": "^0.24.0",
     "daisyui": "^1.16.0",
     "genshin-db": "^3.11.2",
+    "pako": "^2.0.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-overlays": "^5.1.1",

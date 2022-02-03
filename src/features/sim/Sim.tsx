@@ -5,6 +5,7 @@ import { run } from "./SimUtil";
 import Options from "./Options";
 import Help from "./Help";
 import { useAppDispatch, useAppSelector } from "app/hooks";
+import { tempdir } from "@tauri-apps/api/os";
 
 export default function Sim() {
   const dispatch = useAppDispatch();
@@ -13,19 +14,33 @@ export default function Sim() {
       config: state.settings.config,
     };
   });
+  const { options } = useAppSelector((state: RootState) => {
+    return {
+      options: state.settings.options,
+    };
+  });
+  const { team } = useAppSelector((state: RootState) => {
+    return {
+      team: state.team,
+    };
+  });
 
   const [openOpt, setOpenOpt] = React.useState<boolean>(false);
   const [openHelp, setOpenHelp] = React.useState<boolean>(false);
 
-  const handleRun = () => run(config);
+  const handleRun = () => run(config, options, team);
 
-  useEffect(async () => {
-    const Command = (await import("@tauri-apps/api/shell")).Command;
-    const writeFile = (await import("@tauri-apps/api/fs")).writeFile;
-    const readBinaryFile = (await import("@tauri-apps/api/fs")).readBinaryFile;
-    const tempdir = (await import("@tauri-apps/api/os")).tempdir;
-    const saveFile = (await import("@tauri-apps/api/dialog")).save;
-  }, []);
+  // useEffect(() => {
+  //   tauriImport;
+  // }, []);
+
+  // const tauriImport = async () => {
+  //   const Command = (await import("@tauri-apps/api/shell")).Command;
+  //   const writeFile = (await import("@tauri-apps/api/fs")).writeFile;
+  //   const readBinaryFile = (await import("@tauri-apps/api/fs")).readBinaryFile;
+  //   const tempdir = (await import("@tauri-apps/api/os")).tempdir;
+  //   const saveFile = (await import("@tauri-apps/api/dialog")).save;
+  // };
 
   const handleOpenOpt = () => setOpenOpt(true);
   const handleCloseOpt = () => setOpenOpt(false);
